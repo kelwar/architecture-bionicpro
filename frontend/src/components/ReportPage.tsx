@@ -1,9 +1,24 @@
 import React, { useState } from 'react';
 import { useKeycloak } from '@react-keycloak/web';
 
+interface Row {
+  person_id: number;
+  last_name: string;
+  first_name: string;
+  patronymic: string;
+  birthday: string;
+  product_id: number;
+  product_name: string;
+  sensor_id: number;
+  sensor_name: string;
+  timestamp: string;
+  value: number;
+}
+
 const ReportPage: React.FC = () => {
   const { keycloak, initialized } = useKeycloak();
   const [loading, setLoading] = useState(false);
+  const [reports, setReports] = useState<Row[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   const downloadReport = async () => {
@@ -16,13 +31,21 @@ const ReportPage: React.FC = () => {
       setLoading(true);
       setError(null);
 
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/reports`, {
+      const data = await fetch(`${process.env.REACT_APP_API_URL}/reports`, {
         headers: {
           'Authorization': `Bearer ${keycloak.token}`
         }
-      });
+      })
+          .then(async (response: Response) => {
+            if (!response.ok) {
+              throw new Error(await response.text() || `${response.status} ${response.statusText}`);
+            }
+            return response;
+          })
+          .then(res => res.json())
+          .catch(err => setError(err));
 
-      
+      setReports(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
@@ -66,6 +89,45 @@ const ReportPage: React.FC = () => {
           <div className="mt-4 p-4 bg-red-100 text-red-700 rounded">
             {error}
           </div>
+        )}
+
+        {reports.length > 0 && (
+            <div className="mt-6 overflow-x-auto">
+              <table className="min-w-full border border-gray-300">
+                <thead>
+                <tr className="bg-gray-200">
+                  <th className="px-4 py-2 border">Id пользователя</th>
+                  <th className="px-4 py-2 border">Фамилия</th>
+                  <th className="px-4 py-2 border">Имя</th>
+                  <th className="px-4 py-2 border">Отчество</th>
+                  <th className="px-4 py-2 border">Дата рождения</th>
+                  <th className="px-4 py-2 border">Изделие</th>
+                  <th className="px-4 py-2 border">Id датчика</th>
+                  <th className="px-4 py-2 border">Датчик</th>
+                  <th className="px-4 py-2 border">Время события</th>
+                  <th className="px-4 py-2 border">Значение</th>
+                </tr>
+                </thead>
+                <tbody>
+                {reports.map((row, idx) => (
+                    <tr key={idx} className="hover:bg-gray-100">
+                      <td className="px-4 py-2 border">{row.person_id}</td>
+                      <td className="px-4 py-2 border">{row.last_name}</td>
+                      <td className="px-4 py-2 border">{row.first_name}</td>
+                      <td className="px-4 py-2 border">{row.patronymic}</td>
+                      <td className="px-4 py-2 border">{row.birthday}</td>
+                      <td className="px-4 py-2 border">{row.product_name}</td>
+                      <td className="px-4 py-2 border">{row.sensor_id}</td>
+                      <td className="px-4 py-2 border">{row.sensor_name}</td>
+                      <td className="px-4 py-2 border">
+                        {new Date(row.timestamp).toLocaleString()}
+                      </td>
+                      <td className="px-4 py-2 border">{row.value}</td>
+                    </tr>
+                ))}
+                </tbody>
+              </table>
+            </div>
         )}
       </div>
     </div>

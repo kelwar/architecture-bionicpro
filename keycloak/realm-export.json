@@ -120,13 +120,38 @@
         "standardFlowEnabled": true,
         "attributes": {
           "pkce.code.challenge.method": "S256"
-        }
+        },
+        "protocolMappers": [
+          {
+            "name": "override",
+            "protocol": "openid-connect",
+            "protocolMapper": "oidc-usermodel-attribute-mapper",
+            "consentRequired": false,
+            "config": {
+              "user.attribute": "person_id",
+              "claim.name": "person_id",
+              "id.token.claim": "true",
+              "access.token.claim": "true",
+              "userinfo.token.claim": "true"
+            }
+          },
+          {
+            "name": "report-service-audience",
+            "protocol": "openid-connect",
+            "protocolMapper": "oidc-audience-mapper",
+            "config": {
+              "included.client.audience": "report-service",
+              "id.token.claim": "false",
+              "access.token.claim": "true"
+            }
+          }
+        ]
       },
       {
         "clientId": "reports-api",
         "enabled": true,
         "clientAuthenticatorType": "client-secret",
-        "secret": "oNwoLQdvJAvRcL89SydqCWCe5ry1jMgq", 
+        "secret": "kjfaeuswy3rrbfu32f982bf4398453b4tg98r3h",
         "bearerOnly": true
       }
     ]
