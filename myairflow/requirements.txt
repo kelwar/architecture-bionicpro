@@ -1,0 +1,2 @@
+airflow_clickhouse_plugin
+psycopg2-binary

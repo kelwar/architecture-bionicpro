@@ -1,7 +1,0 @@
-apache_airflow==3.1.2
-airflow_clickhouse_plugin[common.sql]==1.6.0
-clickhouse_connect
-clickhouse_driver
-fastapi
-jwt
-psycopg2_binary
