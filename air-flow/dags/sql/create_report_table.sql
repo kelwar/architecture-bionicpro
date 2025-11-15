@@ -8,8 +8,9 @@ create table if not exists report (
     person_id Int64,
     last_name String,
     first_name String,
-    patronymic String
+    patronymic String,
+    birthday Date
 )
-ENGINE = ReplacingMergeTree
-partition by toDate(timestamp)
+ENGINE = ReplacingMergeTree()
+partition by toYYYYMM(timestamp)
 order by (sensor_id, timestamp)

@@ -1,2 +1,3 @@
 airflow_clickhouse_plugin
+clickhouse_connect
 psycopg2-binary

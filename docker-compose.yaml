@@ -1,6 +1,6 @@
 x-airflow-common: &airflow-common
   build:
-    context: ./myairflow
+    context: ./air-flow
     dockerfile: Dockerfile
   depends_on: &airflow-common-depends-on
     airflow-postgres:
@@ -18,7 +18,7 @@ x-airflow-common: &airflow-common
     _PIP_ADDITIONAL_REQUIREMENTS: ''
     AIRFLOW_INPUT_DIR: '/opt/airflow/dag-inputs'
   volumes:
-    - ./myairflow/dags:/opt/airflow/dags
+    - ./air-flow/dags:/opt/airflow/dags
   user: "${AIRFLOW_UID:-50000}:0"
 
 services:
@@ -50,13 +50,12 @@ services:
       - "8080:8080"
     depends_on:
       - keycloak_db
-  crm_db:
+  crm-db:
     image: postgres:16.0
-    container_name: crm_db
+    container_name: crm-db
     volumes:
-      - ./crm/init.sql:/docker-entrypoint-initdb.d/db.sql
-    command: >
-      bash -c "psql -U crm_user -d crm -f /docker-entrypoint-initdb.d/db.sql"
+      - ./crm/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./postgres-crm-data:/var/lib/postgresql/data
     restart: always
     environment:
       POSTGRES_USER: crm_user
@@ -124,7 +123,7 @@ services:
     healthcheck:
       test:
         - CMD-SHELL
-        - airflow jobs check --job-type TriggererJob --hostname "${HOSTNAME}"
+        - airflow jobs check --job-type TriggererJob --hostname "airflow-trigerer"
       interval: 30s
       timeout: 10s
       retries: 5
@@ -198,3 +197,6 @@ services:
       REACT_APP_KEYCLOAK_URL: http://localhost:8080
       REACT_APP_KEYCLOAK_REALM: reports-realm
       REACT_APP_KEYCLOAK_CLIENT_ID: reports-frontend
+
+volumes:
+  postgres_data:
