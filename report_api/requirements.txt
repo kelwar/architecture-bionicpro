@@ -2,3 +2,4 @@ clickhouse_connect
 fastapi
 jwt
 typing
+uvicorn

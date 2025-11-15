@@ -2,10 +2,10 @@ x-airflow-common: &airflow-common
   build:
     context: ./air-flow
     dockerfile: Dockerfile
-  depends_on: &airflow-common-depends-on
+  depends_on:
     airflow-postgres:
       condition: service_healthy
-  environment: &airflow-common-env
+  environment:
     AIRFLOW__CORE__EXECUTOR: LocalExecutor
     AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@airflow-postgres/airflow
     AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@airflow-postgres/airflow
@@ -75,11 +75,7 @@ services:
         max-size: 10m
         max-file: "3"
     healthcheck:
-      test:
-        - CMD
-        - pg_isready
-        - -U
-        - airflow
+      test: ["CMD", "pg_isready", "-U", "airflow"]
       interval: 10s
       retries: 5
       start_period: 5s
@@ -169,13 +165,17 @@ services:
       timeout: 10s
       retries: 3
     restart: always
-  report_api:
+  report-api:
     build:
       context: ./report_api
       dockerfile: Dockerfile
+    command:
+      - uvicorn
+      - report_api:app
     container_name: report-api
     restart: always
     environment:
+      SECRET_KEY: kjfaeuswy3rrbfu32f982bf4398453b4tg98r3h
       CLICKHOUSE_HOST: clickhouse-server
       CLICKHOUSE_PORT: 9000
       CLICKHOUSE_USER: clickhouse
@@ -193,8 +193,8 @@ services:
     ports:
       - "3000:3000"
     environment:
-      REACT_APP_API_URL: http://localhost:8000
-      REACT_APP_KEYCLOAK_URL: http://localhost:8080
+      REACT_APP_API_URL: http://report-api:8000
+      REACT_APP_KEYCLOAK_URL: http://keycloak:8080
       REACT_APP_KEYCLOAK_REALM: reports-realm
       REACT_APP_KEYCLOAK_CLIENT_ID: reports-frontend
 

@@ -1,7 +1,9 @@
-FROM python:3.9-slim
+FROM python:3.11-slim
 USER root
 
-# Install Python dependencies
-COPY requirements.txt /requirements.txt
-RUN pip3 install --upgrade pip
-RUN pip3 install --no-cache-dir -r /requirements.txt
+WORKDIR /app
+COPY . /app
+RUN pip install --upgrade pip
+RUN pip install --no-cache-dir -r requirements.txt
+
+EXPOSE 8000
