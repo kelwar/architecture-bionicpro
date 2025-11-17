@@ -7,7 +7,8 @@ create table person (
     patronymic text,
     last_name  text not null,
     birthday date not null,
-    unique (first_name, patronymic, last_name, birthday)
+    unique (first_name, patronymic, last_name, birthday),
+    email text not null unique
 );
 
 create table product (
@@ -22,12 +23,12 @@ create table sensor (
     type text not null
 );
 
-insert into person (id, first_name, patronymic, last_name, birthday)
-values (1, 'Вадим', 'Петрович', 'Селиверстов', '1975-01-23'),
-       (2, 'Иммануил', 'Гедеонович', 'Виторган', '1950-03-14'),
-       (3, 'Петр', 'Иванович', 'Васечкин', '1990-12-11'),
-       (4, 'Иван', 'Федорович', 'Крузенштерн', '1980-05-09'),
-       (5, 'Илья', 'Евгеньевич', 'Михайлов', '1987-09-02');
+insert into person (id, first_name, patronymic, last_name, birthday, email)
+values (1, 'Вадим', 'Петрович', 'Селиверстов', '1975-01-23', 'prothetic1@example.com'),
+       (2, 'Иммануил', 'Гедеонович', 'Виторган', '1950-03-14', 'prothetic2@example.com'),
+       (3, 'Петр', 'Иванович', 'Васечкин', '1990-12-11', 'prothetic3@example.com'),
+       (4, 'Иван', 'Федорович', 'Крузенштерн', '1980-05-09', 'prothetic4@example.com'),
+       (5, 'Илья', 'Евгеньевич', 'Михайлов', '1987-09-02', 'prothetic5@example.com');
 
 insert into product (id, person_id, type)
 values (1, 4, 'Правая рука'),

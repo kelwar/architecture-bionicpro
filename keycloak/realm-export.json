@@ -67,8 +67,8 @@
         "username": "prothetic1",
         "enabled": true,
         "email": "prothetic1@example.com",
-        "firstName": "Prothetic",
-        "lastName": "One",
+        "firstName": "Вадим",
+        "lastName": "Селиверстов",
         "credentials": [
           {
             "type": "password",
@@ -82,8 +82,8 @@
         "username": "prothetic2",
         "enabled": true,
         "email": "prothetic2@example.com",
-        "firstName": "Prothetic",
-        "lastName": "Two",
+        "firstName": "Иммануил",
+        "lastName": "Виторган",
         "credentials": [
           {
             "type": "password",
@@ -97,8 +97,38 @@
         "username": "prothetic3",
         "enabled": true,
         "email": "prothetic3@example.com",
-        "firstName": "Prothetic",
-        "lastName": "Three",
+        "firstName": "Петр",
+        "lastName": "Васечкин",
+        "credentials": [
+          {
+            "type": "password",
+            "value": "prothetic123",
+            "temporary": false
+          }
+        ],
+        "realmRoles": ["prothetic_user"]
+      },
+      {
+        "username": "prothetic4",
+        "enabled": true,
+        "email": "prothetic4@example.com",
+        "firstName": "Иван",
+        "lastName": "Крузенштерн",
+        "credentials": [
+          {
+            "type": "password",
+            "value": "prothetic123",
+            "temporary": false
+          }
+        ],
+        "realmRoles": ["prothetic_user"]
+      },
+      {
+        "username": "prothetic5",
+        "enabled": true,
+        "email": "prothetic5@example.com",
+        "firstName": "Илья",
+        "lastName": "Михайлов",
         "credentials": [
           {
             "type": "password",
@@ -115,43 +145,14 @@
         "enabled": true,
         "publicClient": true,
         "redirectUris": ["http://localhost:3000/*"],
-        "webOrigins": ["http://localhost:3000"],
-        "directAccessGrantsEnabled": true,
-        "standardFlowEnabled": true,
-        "attributes": {
-          "pkce.code.challenge.method": "S256"
-        },
-        "protocolMappers": [
-          {
-            "name": "override",
-            "protocol": "openid-connect",
-            "protocolMapper": "oidc-usermodel-attribute-mapper",
-            "consentRequired": false,
-            "config": {
-              "user.attribute": "person_id",
-              "claim.name": "person_id",
-              "id.token.claim": "true",
-              "access.token.claim": "true",
-              "userinfo.token.claim": "true"
-            }
-          },
-          {
-            "name": "report-service-audience",
-            "protocol": "openid-connect",
-            "protocolMapper": "oidc-audience-mapper",
-            "config": {
-              "included.client.audience": "report-service",
-              "id.token.claim": "false",
-              "access.token.claim": "true"
-            }
-          }
-        ]
+        "webOrigins": ["http://localhost:3000", "*"],
+        "directAccessGrantsEnabled": true
       },
       {
         "clientId": "reports-api",
         "enabled": true,
         "clientAuthenticatorType": "client-secret",
-        "secret": "kjfaeuswy3rrbfu32f982bf4398453b4tg98r3h",
+        "secret": "oNwoLQdvJAvRcL89SydqCWCe5ry1jMgq", 
         "bearerOnly": true
       }
     ]
