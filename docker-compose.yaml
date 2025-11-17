@@ -54,7 +54,27 @@ services:
     restart: always
   airflow-webserver:
     <<: *airflow-common
-    command: webserver
+    command: >
+      bash -c "webserver && airflow connections add 'crm_db_connection' \ 
+      --conn-type 'Postgres' \ 
+      --conn-host 'crm-db' \
+      --conn-database 'crm' \
+      --conn-login 'crm_user' \ 
+      --conn-password 'crm_pass' \
+      --conn-port '5432' \ && airflow connections add 'clickhouse_connection' \
+      --conn-type 'Generic' \ 
+      --conn-host 'clickhouse-server' \
+      --conn-database 'clickhouse' \
+      --conn-login 'clickhouse' \ 
+      --conn-password 'clickhouse' \
+      --conn-port '9000' \ && airflow connections add 'clickhouse_http_connection' \
+      --conn-type 'Generic' \ 
+      --conn-host 'clickhouse-server' \
+      --conn-database 'clickhouse' \
+      --conn-login 'clickhouse' \ 
+      --conn-password 'clickhouse' \
+      --conn-port '8123'
+      "
     ports:
       - "8081:8080"
     depends_on:

@@ -9,8 +9,9 @@ create table if not exists report (
     last_name String,
     first_name String,
     patronymic String,
-    birthday Date
+    birthday Date,
+    email String
 )
 ENGINE = ReplacingMergeTree()
 partition by toYYYYMM(timestamp)
-order by (sensor_id, timestamp)
+order by (email, sensor_id, timestamp)

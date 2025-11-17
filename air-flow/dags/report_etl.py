@@ -36,7 +36,7 @@ with DAG("report_etl", schedule="@hourly", catchup=False, start_date=datetime(20
         return hook.get_records(sql="""
             select s.id as sensor_id, s.type as sensor_type, prod.id as product_id, prod.type as product_type,
                    pers.id as person_id, pers.last_name as last_name, pers.first_name as first_name, 
-                   pers.patronymic as patronymic, pers.birthday as birthday
+                   pers.patronymic as patronymic, pers.birthday as birthday, pers.email as email
             from sensor s
             inner join product prod on prod.id = s.product_id
             inner join person pers on pers.id = prod.person_id
@@ -54,13 +54,13 @@ with DAG("report_etl", schedule="@hourly", catchup=False, start_date=datetime(20
 
         Report = namedtuple("Report", ["sensor_id", "sensor_type", "timestamp", "value",
                                        "product_id", "product_type", "person_id", "last_name", "first_name",
-                                       "patronymic", "birthday"])
+                                       "patronymic", "birthday", "email"])
 
         print(f"metadata: {data}")
         sensor_data = []
         for t in telemetry:
             d = data[t[0]]
-            sensor_data.append(Report(d[0], d[1], t[1], t[2], d[2], d[3], d[4], d[5], d[6], d[7], d[8]))
+            sensor_data.append(Report(d[0], d[1], t[1], t[2], d[2], d[3], d[4], d[5], d[6], d[7], d[8], d[9]))
         return sensor_data
 
     @task
