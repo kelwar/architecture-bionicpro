@@ -126,6 +126,8 @@ services:
     ports:
       - "8123:8123"   # HTTP
       - "9000:9000"   # TCP
+    volumes:
+      - ./clickhouse-data:/var/lib/clickhouse/data
     cap_add:
       - SYS_NICE
       - NET_ADMIN

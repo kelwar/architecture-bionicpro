@@ -9,7 +9,7 @@ create table if not exists report (
     last_name String,
     first_name String,
     patronymic String,
-    birthday Date,
+    birthday String,
     email String
 )
 ENGINE = ReplacingMergeTree()

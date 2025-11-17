@@ -1,4 +1,5 @@
 /.idea
+/clickhouse-data
 /postgres-crm-data
 /postgres-keycloak-data
 2024__yandex-architecture-sso.code-workspace

@@ -60,7 +60,7 @@ with DAG("report_etl", schedule="@hourly", catchup=False, start_date=datetime(20
         sensor_data = []
         for t in telemetry:
             d = data[t[0]]
-            sensor_data.append(Report(d[0], d[1], t[1], t[2], d[2], d[3], d[4], d[5], d[6], d[7], d[8], d[9]))
+            sensor_data.append(Report(d[0], d[1], t[1], t[2], d[2], d[3], d[4], d[5], d[6], d[7], str(d[8]), d[9]))
         return sensor_data
 
     @task
